@@ -69,6 +69,29 @@ void test_breathing_darkens_at_zero_phase() {
   TEST_ASSERT_EQUAL_UINT8(0, leds[1].r);
 }
 
+void test_color_wipe_fills_up_to_progress() {
+  const size_t n = 5;
+  Color leds[5] = {};
+  Color base{0, 200, 0};
+  fillColorWipe(leds, n, base, /*progress=*/2);
+  TEST_ASSERT_TRUE(colorEquals(leds[0], base));
+  TEST_ASSERT_TRUE(colorEquals(leds[1], base));
+  TEST_ASSERT_EQUAL_UINT8(0, leds[2].r);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[2].g);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[2].b);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[4].r);
+}
+
+void test_color_wipe_clamps_progress_to_n() {
+  const size_t n = 3;
+  Color leds[3] = {};
+  Color base{0, 0, 200};
+  fillColorWipe(leds, n, base, /*progress=*/99);
+  TEST_ASSERT_TRUE(colorEquals(leds[0], base));
+  TEST_ASSERT_TRUE(colorEquals(leds[1], base));
+  TEST_ASSERT_TRUE(colorEquals(leds[2], base));
+}
+
 int main(int argc, char **argv) {
   UNITY_BEGIN();
   RUN_TEST(test_color_equals_works);
@@ -78,5 +101,7 @@ int main(int argc, char **argv) {
   RUN_TEST(test_rainbow_distributes_hue_across_leds);
   RUN_TEST(test_breathing_uses_supplied_color_at_max_phase);
   RUN_TEST(test_breathing_darkens_at_zero_phase);
+  RUN_TEST(test_color_wipe_fills_up_to_progress);
+  RUN_TEST(test_color_wipe_clamps_progress_to_n);
   return UNITY_END();
 }

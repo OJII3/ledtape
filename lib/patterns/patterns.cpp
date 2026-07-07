@@ -23,6 +23,18 @@ void fillRainbow(Color *leds, size_t n, uint8_t startHue, uint8_t brightness) {
   }
 }
 
+void fillColorWipe(Color *leds, size_t n, Color base, size_t progress) {
+  if (n == 0) return;
+  size_t upTo = progress;
+  if (upTo > n) upTo = n;
+  for (size_t i = 0; i < upTo; ++i) {
+    leds[i] = base;
+  }
+  for (size_t i = upTo; i < n; ++i) {
+    leds[i] = Color{0, 0, 0};
+  }
+}
+
 void fillBreathing(Color *leds, size_t n, Color base, uint8_t phase) {
   uint16_t scale = phase;
   for (size_t i = 0; i < n; ++i) {
