@@ -14,3 +14,11 @@ Color hsvToRgb(uint8_t hue, uint8_t sat, uint8_t val) {
     default: return Color{t, p, val};
   }
 }
+
+void fillRainbow(Color *leds, size_t n, uint8_t startHue, uint8_t brightness) {
+  if (n == 0) return;
+  for (size_t i = 0; i < n; ++i) {
+    uint8_t hue = startHue + (uint8_t)((i * 256) / n);
+    leds[i] = hsvToRgb(hue, 255, brightness);
+  }
+}
