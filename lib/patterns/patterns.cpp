@@ -22,3 +22,12 @@ void fillRainbow(Color *leds, size_t n, uint8_t startHue, uint8_t brightness) {
     leds[i] = hsvToRgb(hue, 255, brightness);
   }
 }
+
+void fillBreathing(Color *leds, size_t n, Color base, uint8_t phase) {
+  uint16_t scale = phase;
+  for (size_t i = 0; i < n; ++i) {
+    leds[i].r = (uint8_t)((base.r * scale) / 255);
+    leds[i].g = (uint8_t)((base.g * scale) / 255);
+    leds[i].b = (uint8_t)((base.b * scale) / 255);
+  }
+}

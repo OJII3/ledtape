@@ -48,6 +48,27 @@ void test_rainbow_distributes_hue_across_leds() {
   TEST_ASSERT_TRUE(colorEquals(leds[3], h192));
 }
 
+void test_breathing_uses_supplied_color_at_max_phase() {
+  const size_t n = 3;
+  Color leds[3] = {};
+  Color base{200, 0, 0};
+  fillBreathing(leds, n, base, /*phase=*/255);
+  TEST_ASSERT_TRUE(colorEquals(leds[0], base));
+  TEST_ASSERT_TRUE(colorEquals(leds[1], base));
+  TEST_ASSERT_TRUE(colorEquals(leds[2], base));
+}
+
+void test_breathing_darkens_at_zero_phase() {
+  const size_t n = 2;
+  Color leds[2] = {};
+  Color base{200, 0, 0};
+  fillBreathing(leds, n, base, /*phase=*/0);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[0].r);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[0].g);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[0].b);
+  TEST_ASSERT_EQUAL_UINT8(0, leds[1].r);
+}
+
 int main(int argc, char **argv) {
   UNITY_BEGIN();
   RUN_TEST(test_color_equals_works);
@@ -55,5 +76,7 @@ int main(int argc, char **argv) {
   RUN_TEST(test_hsv_to_rgb_green);
   RUN_TEST(test_hsv_to_rgb_blue);
   RUN_TEST(test_rainbow_distributes_hue_across_leds);
+  RUN_TEST(test_breathing_uses_supplied_color_at_max_phase);
+  RUN_TEST(test_breathing_darkens_at_zero_phase);
   return UNITY_END();
 }
