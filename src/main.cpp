@@ -6,7 +6,7 @@
 namespace {
 
 constexpr uint8_t LED_PIN = 2;
-constexpr uint16_t NUM_LEDS = 30;
+constexpr uint16_t NUM_LEDS = 120;
 constexpr uint8_t BRIGHTNESS = 32;
 
 CRGB leds[NUM_LEDS];
